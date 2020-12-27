@@ -6,29 +6,28 @@
         <navbar></navbar>
         <tags-view></tags-view>
       </div>
-      <section class="app-main">
-        啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>
-        啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>
-        啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>
-        啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>
-        啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>
-        啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>啊是大<br>
-        1111
-      </section>
+      <app-main></app-main>
+      <right-panel>
+        <settings></settings>
+      </right-panel>
     </div>
   </div>
 </template>
 
 <script>
-import { Sidebar, Navbar, TagsView } from "./components";
+import RightPanel from '@/components/RightPanel/index.vue'
+import { Sidebar, Navbar, TagsView, AppMain, Settings } from './components'
 export default {
-  name: "Layout",
+  name: 'Layout',
   components: {
     Sidebar,
     Navbar,
     TagsView,
+    AppMain,
+    Settings,
+    RightPanel
   }
-};
+}
 </script>
 
 <style lang="sass" scoped>
@@ -47,10 +46,4 @@ export default {
       z-index: 9;
       width: calc(100% - 210px);
       transition: width .28s;
-    .app-main
-      padding-top: 84px;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-      min-height: calc(100vh - 84px);
 </style>

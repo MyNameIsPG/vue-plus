@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "TagsView"
+  name: 'TagsView'
 }
 </script>
 
