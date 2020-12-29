@@ -17,6 +17,7 @@
 <script>
 import RightPanel from '@/components/RightPanel/index.vue'
 import { Sidebar, Navbar, TagsView, AppMain, Settings } from './components'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Layout',
   components: {
@@ -26,6 +27,9 @@ export default {
     AppMain,
     Settings,
     RightPanel
+  },
+  computed: {
+    ...mapGetters(['sidebar'])
   }
 }
 </script>

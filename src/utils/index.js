@@ -15,8 +15,8 @@ export function toggleClass(element, className) {
       classString.substr(0, nameIndex) +
       classString.substr(nameIndex + className.length)
   }
-  element.className = classString;
-};
+  element.className = classString
+}
 
 /**
  * Check if an element has a class

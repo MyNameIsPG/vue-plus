@@ -6,6 +6,8 @@ import ElementPlus from 'element-plus'
 import '@/styles/element-variables.scss'
 import '@/styles/index.scss'
 
+console.log('页面先进')
+
 createApp(App)
   .use(store)
   .use(router)
