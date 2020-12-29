@@ -1,31 +1,16 @@
 <template>
   <div class="navbar">
-    <div class="hamburger-container">
-      <i class="el-icon-s-fold"></i>
+    <div class="hamburger-container" @click="toggleSideBar">
+      <i class="iconfont" :class="sidebar ? 'icon-toggle-left' : 'icon-toggle-right'"></i>
     </div>
     <div class="right-nav-bar">
-      <el-dropdown class="username-container" trigger="click">
-        <div class="username-container">
-          <span style="cursor: pointer">中文</span>
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </div>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>
-              <div class="center">中文简体</div>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div class="center">English</div>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+      <size-select></size-select>
+      <language-select></language-select>
       <full-screen class="right-menu-item"></full-screen>
-      <el-dropdown class="username-container" trigger="click">
+      <el-dropdown size="small">
         <div class="username-container">
           <img class="userImg" src="@/assets/userImg.png" />
           <span style="cursor: pointer">超级管理员</span>
-          <i class="el-icon-arrow-down el-icon--right"></i>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
@@ -47,10 +32,22 @@
 
 <script>
 import FullScreen from '@/components/FullScreen'
+import SizeSelect from '@/components/SizeSelect'
+import LanguageSelect from '@/components/LanguageSelect'
 export default {
   name: 'Navbar',
+  props: {
+    sidebar: Boolean
+  },
   components: {
+    LanguageSelect,
+    SizeSelect,
     FullScreen
+  },
+  methods: {
+    toggleSideBar() {
+      this.$store.dispatch('app/toggleSideBar')
+    }
   }
 }
 </script>
@@ -79,14 +76,27 @@ export default {
     right: 0px
     top: 0px
     height: 100%
+    display: flex
     .right-menu-item
-      display: inline-block
-      padding: 0 8px
-      height: 100%
-      font-size: 18px
-      color: #5a5e66
-      line-height: 50px
-      vertical-align: text-bottom
+      position: relative
+      color: #606266
+      display: flex
+      justify-content: center
+      align-items: center
+      height: 50px
+      font-size: 14px
+      padding: 0 10px
+      &:hover
+        background: rgba(0, 0, 0, 0.025)
+        transition: background .3s
+        cursor: pointer
+    /deep/.dropdown-container
+      display: flex
+      justify-content: center
+      align-items: center
+      height: 50px
+      padding: 0 10px
+      outline: none
       &:hover
         background: rgba(0, 0, 0, 0.025)
         transition: background .3s

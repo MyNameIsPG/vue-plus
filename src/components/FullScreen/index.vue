@@ -1,6 +1,6 @@
 <template>
   <div class="right-menu-item" @click="handleClick" :title="!state.isFullscreen ? '全屏显示' : '取消全屏'">
-    <i class="el-icon-full-screen"></i>
+    <i class="iconfont" :class="!state.isFullscreen ? 'icon-full-screen' : 'icon-cancel-full-screen'"></i>
   </div>
 </template>
 
@@ -35,7 +35,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-
-</style>

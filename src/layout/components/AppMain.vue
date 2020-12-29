@@ -1,8 +1,9 @@
 <template>
   <section class="app-main">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+<!--    <keep-alive>-->
+<!--      <router-view></router-view>-->
+<!--    </keep-alive>-->
+    <router-view></router-view>
   </section>
 </template>
 
@@ -14,9 +15,10 @@ export default {
 
 <style lang="sass" scoped>
 .app-main
-  padding-top: 84px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  min-height: calc(100vh - 84px);
+  padding-top: 84px
+  width: 100%
+  position: relative
+  overflow: hidden
+  height: 100vh
+  box-sizing: border-box
 </style>
