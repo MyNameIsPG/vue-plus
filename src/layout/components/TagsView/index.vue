@@ -1,12 +1,23 @@
 <template>
   <div class="tags-view-container">
     <scroll-pane>
-      <span class="tags-view-item" v-for="item in 30" :key="item">
-        首页{{item}}
-        <span class="el-icon-close"></span>
+      <span
+        v-for="item in affixTags"
+        :key="item.path"
+        :class="[item.path === $route.path ? 'active' : '']"
+        class="tags-view-item"
+        @click="openMenu(item.path)"
+      >
+        {{ item.name }}
       </span>
-        <span class="tags-view-item active">
-        首页
+      <span
+        v-for="item in visitedViews"
+        :key="item.path"
+        :class="[item.path === $route.path ? 'active' : '']"
+        class="tags-view-item"
+        @click="openMenu(item.path)"
+      >
+        {{ item.name }}
         <span class="el-icon-close"></span>
       </span>
     </scroll-pane>
@@ -15,10 +26,70 @@
 
 <script>
 import ScrollPane from './ScrollPane.vue'
+import menus from '@/layout/menus'
+import { mapGetters } from 'vuex'
 export default {
   name: 'TagsView',
   components: {
     ScrollPane
+  },
+  data() {
+    return {
+      affixTags: []
+    }
+  },
+  mounted() {
+    this.initTags()
+  },
+  // watch: {
+  //   $route() {
+  //     this.addTags()
+  //   }
+  // },
+  computed: {
+    ...mapGetters(['visitedViews'])
+  },
+  methods: {
+    initTags: function() {
+      this.filterAffixTags(menus)
+    },
+    filterAffixTags: function(routes) {
+      routes.forEach(route => {
+        if (route.affix) {
+          this.affixTags.push({
+            path: route.path,
+            name: route.name
+          })
+        }
+        if (route.children) {
+          this.filterAffixTags(route.children)
+        }
+      })
+    },
+    addTags() {
+      const { path } = this.$route
+      const tag = this.queryFindTagData(menus, path)
+      this.$store.dispatch('tagsView/addVisitedView', tag)
+    },
+    openMenu(path) {
+      this.$router.push({ path: path })
+    },
+    queryFindTagData(menus, path) {
+      for (let i = 0; i < menus.length; i++) {
+        if (menus[i].path === path) {
+          return {
+            path: menus[i].path,
+            name: menus[i].name
+          }
+        } else if (menus[i].children) {
+          const tag = this.queryFindTagData(menus[i].children, path)
+          if (tag) {
+            return tag
+          }
+        }
+      }
+      return {}
+    }
   }
 }
 </script>

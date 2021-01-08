@@ -2,47 +2,40 @@
   <div class="sidebar-container">
     <el-menu
       :uniqueOpened="true"
-      default-active="2"
-      class="el-menu-vertical-demo"
+      :collapse="!sidebar"
       background-color="#304156"
+      :collapse-transition="false"
       text-color="#fff"
       router
+      :default-active="activeMenu"
       active-text-color="#1890ff"
     >
-      <el-menu-item index="/home">
-        <i class="el-icon-menu"></i>
-        <template #title>首页</template>
-      </el-menu-item>
-      <el-submenu index="1">
-        <template #title>
-          <i class="el-icon-location"></i>
-          <span>组件</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="/tinymce">富文本编辑器</el-menu-item>
-          <el-menu-item index="/markdown">Markdown</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="5">
-        <template #title>
-          <i class="el-icon-location"></i>
-          <span>导航一</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="5-1">选项1</el-menu-item>
-          <el-menu-item index="5-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="5-3">选项3</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+      <sidebar-item v-for="(menu, index) in menus" :key="index" :item="menu"></sidebar-item>
     </el-menu>
   </div>
 </template>
 
 <script>
+import SidebarItem from './SidebarItem.vue'
+import menus from '../../menus'
 export default {
-  name: 'Sidebar'
+  name: 'Sidebar',
+  props: {
+    sidebar: Boolean
+  },
+  components: {
+    SidebarItem
+  },
+  data() {
+    return {
+      menus: menus
+    }
+  },
+  computed: {
+    activeMenu() {
+      return this.$route.path
+    }
+  }
 }
 </script>
 

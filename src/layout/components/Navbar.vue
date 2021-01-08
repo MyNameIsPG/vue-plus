@@ -7,7 +7,7 @@
       <size-select></size-select>
       <language-select></language-select>
       <full-screen class="right-menu-item"></full-screen>
-      <el-dropdown size="small">
+      <el-dropdown size="small" trigger="click">
         <div class="username-container">
           <img class="userImg" src="@/assets/userImg.png" />
           <span style="cursor: pointer">超级管理员</span>

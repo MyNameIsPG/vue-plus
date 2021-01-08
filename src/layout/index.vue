@@ -1,6 +1,6 @@
 <template>
   <div class="app-wrapper" :class="[ !sidebar ? 'hideSidebar' : '']">
-    <sidebar class="sidebar-container" />
+    <sidebar :sidebar="sidebar" class="sidebar-container" />
     <div class="main-container">
       <div class="fixed-header">
         <navbar :sidebar="sidebar"></navbar>

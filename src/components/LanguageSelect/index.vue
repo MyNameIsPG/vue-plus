@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown size="small">
+  <el-dropdown size="small" trigger="click">
     <div class="dropdown-container">
       <i class="iconfont icon-language"></i>
     </div>

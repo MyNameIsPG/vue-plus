@@ -1,7 +1,9 @@
 <template>
-  <el-dropdown size="small" @command="handleSetSize">
+  <el-dropdown size="small" trigger="click" @command="handleSetSize">
     <div class="dropdown-container">
-      <i class="iconfont icon-filter"></i>
+      <el-tooltip class="item" effect="dark" content="布局大小" placement="bottom">
+        <i class="iconfont icon-filter"></i>
+      </el-tooltip>
     </div>
     <template #dropdown>
       <el-dropdown-menu>
@@ -30,6 +32,10 @@ export default {
     handleSetSize(size) {
       this.$ELEMENT.size = size
       localStorage.setItem('size', size)
+      this.$message({
+        message: '布局大小切换成功',
+        type: 'success'
+      })
       this.$nextTick(() => {
         this.$router.replace({
           path: '/home'
