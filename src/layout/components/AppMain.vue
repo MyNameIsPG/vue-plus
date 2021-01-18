@@ -1,18 +1,40 @@
 <template>
   <section class="app-main">
-<!--    <keep-alive>-->
-<!--      <router-view></router-view>-->
-<!--    </keep-alive>-->
-    <router-view></router-view>
+    <transition name="fade-transform" mode="out-in">
+      <keep-alive>
+        <router-view />
+      </keep-alive>
+    </transition>
   </section>
 </template>
 
 <script>
 export default {
-  name: 'AppMain'
+  name: 'AppMain',
+  computed: {
+    key() {
+      return this.$route.path
+    }
+  }
 }
 </script>
 
+<style>
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all .5s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
 <style lang="sass" scoped>
 .app-main
   padding-top: 84px

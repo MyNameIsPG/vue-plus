@@ -5,6 +5,7 @@ import store from './store'
 import ElementPlus from 'element-plus'
 import '@/styles/element-variables.scss'
 import '@/styles/index.scss'
+import './progress'
 
 createApp(App)
   .use(store)

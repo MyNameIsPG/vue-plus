@@ -4,7 +4,6 @@ const state = {
 
 const mutations = {
   ADD_VISITED_VIEW: (state, view) => {
-    if (state.visitedViews.length === 0) return
     if (state.visitedViews.some(v => v.path === view.path)) return
     state.visitedViews.push(view)
   }

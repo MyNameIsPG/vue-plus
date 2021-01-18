@@ -1,11 +1,11 @@
 <template>
-  <div class="right-menu-item" @click="handleClick" :title="!state.isFullscreen ? '全屏显示' : '取消全屏'">
-    <i class="iconfont" :class="!state.isFullscreen ? 'icon-full-screen' : 'icon-cancel-full-screen'"></i>
+  <div class="right-menu-item" @click="handleClick" :title="!isFullscreen ? '全屏显示' : '取消全屏'">
+    <i class="iconfont" :class="!isFullscreen ? 'icon-full-screen' : 'icon-cancel-full-screen'"></i>
   </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, onUnmounted, reactive } from 'vue'
+import { defineComponent, onMounted, onUnmounted, reactive, toRefs } from 'vue'
 import screenfull from 'screenfull'
 export default defineComponent({
   name: 'FullScreen',
@@ -29,7 +29,7 @@ export default defineComponent({
       }
     })
     return {
-      state,
+      ...toRefs(state),
       handleClick
     }
   }

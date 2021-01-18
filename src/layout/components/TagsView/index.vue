@@ -1,26 +1,42 @@
 <template>
   <div class="tags-view-container">
-    <scroll-pane>
-      <span
-        v-for="item in affixTags"
-        :key="item.path"
-        :class="[item.path === $route.path ? 'active' : '']"
-        class="tags-view-item"
-        @click="openMenu(item.path)"
-      >
-        {{ item.name }}
-      </span>
-      <span
-        v-for="item in visitedViews"
-        :key="item.path"
-        :class="[item.path === $route.path ? 'active' : '']"
-        class="tags-view-item"
-        @click="openMenu(item.path)"
-      >
-        {{ item.name }}
-        <span class="el-icon-close"></span>
-      </span>
-    </scroll-pane>
+    <div class="tags-item-container">
+      <scroll-pane>
+        <span
+          v-for="item in visitedViews"
+          :key="item.path"
+          class="tags-view-item"
+          :class="[item.path === $route.path ? 'active' : '']"
+          @click="openMenu(item.path)"
+        >
+          {{ item.name }}
+          <span class="el-icon-close" v-if="!item.affix"></span>
+        </span>
+      </scroll-pane>
+    </div>
+    <div class="tags-more-container">
+      <el-dropdown size="small" trigger="click">
+        <div class="username-container">
+          <span style="cursor: pointer; font-size: 13px;">更多<i class="el-icon-arrow-down"></i></span>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <div class="center">关闭其它</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="center">关闭左侧</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="center">关闭右侧</div>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div class="center">全部关闭</div>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
   </div>
 </template>
 
@@ -38,37 +54,39 @@ export default {
       affixTags: []
     }
   },
-  mounted() {
+  created() {
     this.initTags()
   },
-  // watch: {
-  //   $route() {
-  //     this.addTags()
-  //   }
-  // },
+  watch: {
+    $route() {
+      this.addTags()
+    }
+  },
   computed: {
     ...mapGetters(['visitedViews'])
   },
   methods: {
-    initTags: function() {
-      this.filterAffixTags(menus)
+    initTags() {
+      this.filterAffixTags(menus, this.$route.path)
     },
-    filterAffixTags: function(routes) {
+    filterAffixTags(routes, path) {
       routes.forEach(route => {
-        if (route.affix) {
-          this.affixTags.push({
+        if (route.affix || route.path === path) {
+          this.$store.dispatch('tagsView/addVisitedView', {
             path: route.path,
-            name: route.name
+            name: route.name,
+            affix: route.affix
           })
         }
         if (route.children) {
-          this.filterAffixTags(route.children)
+          this.filterAffixTags(route.children, path)
         }
       })
     },
     addTags() {
       const { path } = this.$route
       const tag = this.queryFindTagData(menus, path)
+      console.log(tag)
       this.$store.dispatch('tagsView/addVisitedView', tag)
     },
     openMenu(path) {
@@ -79,7 +97,8 @@ export default {
         if (menus[i].path === path) {
           return {
             path: menus[i].path,
-            name: menus[i].name
+            name: menus[i].name,
+            affix: menus[i].affix
           }
         } else if (menus[i].children) {
           const tag = this.queryFindTagData(menus[i].children, path)
@@ -88,7 +107,6 @@ export default {
           }
         }
       }
-      return {}
     }
   }
 }
@@ -101,6 +119,17 @@ export default {
   background: #fff
   border-bottom: 1px solid #d8dce5
   box-shadow: 0 1px 3px 0 rgba(0,0,0,.12), 0 0 3px 0 rgba(0,0,0,.04)
+  display: flex
+  .tags-item-container
+    width: calc(100% - 60px)
+    height: 100%
+  .tags-more-container
+    flex: 0 0 60px
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 13px
   .tags-view-item
     display: inline-block
     position: relative
