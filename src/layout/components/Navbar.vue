@@ -34,7 +34,9 @@
 import FullScreen from '@/components/FullScreen'
 import SizeSelect from '@/components/SizeSelect'
 import LanguageSelect from '@/components/LanguageSelect'
-export default {
+import { defineComponent } from 'vue'
+import { useStore } from 'vuex'
+export default defineComponent({
   name: 'Navbar',
   props: {
     sidebar: Boolean
@@ -44,12 +46,16 @@ export default {
     SizeSelect,
     FullScreen
   },
-  methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
+  setup() {
+    const state = useStore()
+    function toggleSideBar() {
+      state.dispatch('app/toggleSideBar')
+    }
+    return {
+      toggleSideBar
     }
   }
-}
+})
 </script>
 
 <style lang="sass" scoped>

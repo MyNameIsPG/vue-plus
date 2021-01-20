@@ -10,7 +10,7 @@
           @click="openMenu(item.path)"
         >
           {{ item.name }}
-          <span class="el-icon-close" v-if="!item.affix"></span>
+          <span class="el-icon-close" v-if="!item.affix" @click.prevent.stop="closeMenu(item)"></span>
         </span>
       </scroll-pane>
     </div>
@@ -43,56 +43,40 @@
 <script>
 import ScrollPane from './ScrollPane.vue'
 import menus from '@/layout/menus'
-import { mapGetters } from 'vuex'
-export default {
+import { useStore } from 'vuex'
+import { defineComponent, computed, onBeforeMount } from 'vue'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+export default defineComponent({
   name: 'TagsView',
   components: {
     ScrollPane
   },
-  data() {
-    return {
-      affixTags: []
+  setup: function() {
+    const router = useRouter()
+    const store = useStore()
+    const route = useRoute()
+    function initTags() {
+      filterAffixTags(menus, route.path)
     }
-  },
-  created() {
-    this.initTags()
-  },
-  watch: {
-    $route() {
-      this.addTags()
-    }
-  },
-  computed: {
-    ...mapGetters(['visitedViews'])
-  },
-  methods: {
-    initTags() {
-      this.filterAffixTags(menus, this.$route.path)
-    },
-    filterAffixTags(routes, path) {
+    function filterAffixTags(routes, path) {
       routes.forEach(route => {
         if (route.affix || route.path === path) {
-          this.$store.dispatch('tagsView/addVisitedView', {
+          store.dispatch('tagsView/addVisitedView', {
             path: route.path,
             name: route.name,
             affix: route.affix
           })
         }
         if (route.children) {
-          this.filterAffixTags(route.children, path)
+          filterAffixTags(route.children, path)
         }
       })
-    },
-    addTags() {
-      const { path } = this.$route
-      const tag = this.queryFindTagData(menus, path)
-      console.log(tag)
-      this.$store.dispatch('tagsView/addVisitedView', tag)
-    },
-    openMenu(path) {
-      this.$router.push({ path: path })
-    },
-    queryFindTagData(menus, path) {
+    }
+    function addTags(path) {
+      const tag = queryFindTagData(menus, path)
+      store.dispatch('tagsView/addVisitedView', tag)
+    }
+    function queryFindTagData(menus, path) {
       for (let i = 0; i < menus.length; i++) {
         if (menus[i].path === path) {
           return {
@@ -101,15 +85,42 @@ export default {
             affix: menus[i].affix
           }
         } else if (menus[i].children) {
-          const tag = this.queryFindTagData(menus[i].children, path)
+          const tag = queryFindTagData(menus[i].children, path)
           if (tag) {
             return tag
           }
         }
       }
     }
+    function openMenu(path) {
+      router.push(path)
+    }
+    function closeMenu(view) {
+      store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
+        toLastView(visitedViews, view)
+      })
+    }
+    function toLastView(visitedViews) {
+      const latestView = visitedViews.slice(-1)[0]
+      if (latestView) {
+        router.push(latestView.path)
+      } else {
+        router.push('/')
+      }
+    }
+    onBeforeMount(() => {
+      initTags()
+    })
+    onBeforeRouteUpdate((to) => {
+      addTags(to.path)
+    })
+    return {
+      openMenu,
+      closeMenu,
+      visitedViews: computed(() => store.state.tagsView.visitedViews)
+    }
   }
-}
+})
 </script>
 
 <style lang="sass" scoped>

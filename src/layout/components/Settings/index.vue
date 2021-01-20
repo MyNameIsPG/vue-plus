@@ -29,25 +29,28 @@
 
 <script>
 import ThemePicker from '@/components/ThemePicker'
+import { defineComponent, ref } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Settings',
   components: {
     ThemePicker
   },
-  data() {
-    return {
-      tagsView: false,
-      fixedHeader: false,
-      sidebarLogo: false
-    }
-  },
-  methods: {
-    themeChange() {
+  setup() {
+    const tagsView = ref(false)
+    const fixedHeader = ref(false)
+    const sidebarLogo = ref(false)
+    function themeChange() {
       console.log('进来了')
     }
+    return {
+      tagsView,
+      fixedHeader,
+      sidebarLogo,
+      themeChange
+    }
   }
-}
+})
 </script>
 
 <style lang="sass" scoped>

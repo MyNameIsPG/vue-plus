@@ -1,22 +1,24 @@
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
-      <keep-alive>
-        <router-view />
-      </keep-alive>
+      <router-view :key="key" />
     </transition>
   </section>
 </template>
 
 <script>
-export default {
+import { computed, defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
+
+export default defineComponent({
   name: 'AppMain',
-  computed: {
-    key() {
-      return this.$route.path
+  setup() {
+    const route = useRoute()
+    return {
+      key: computed(() => route.path)
     }
   }
-}
+})
 </script>
 
 <style>

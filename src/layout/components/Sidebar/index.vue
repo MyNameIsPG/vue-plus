@@ -18,7 +18,9 @@
 <script>
 import SidebarItem from './SidebarItem.vue'
 import menus from '../../menus'
-export default {
+import { computed, defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
+export default defineComponent({
   name: 'Sidebar',
   props: {
     sidebar: Boolean
@@ -26,17 +28,14 @@ export default {
   components: {
     SidebarItem
   },
-  data() {
+  setup() {
+    const route = useRoute()
     return {
-      menus: menus
-    }
-  },
-  computed: {
-    activeMenu() {
-      return this.$route.path
+      menus,
+      activeMenu: computed(() => route.path)
     }
   }
-}
+})
 </script>
 
 <style lang="sass" scoped>

@@ -17,8 +17,9 @@
 <script>
 import RightPanel from '@/components/RightPanel/index.vue'
 import { Sidebar, Navbar, TagsView, AppMain, Settings } from './components'
-import { mapGetters } from 'vuex'
-export default {
+import { useStore } from 'vuex'
+import { computed, defineComponent } from 'vue'
+export default defineComponent({
   name: 'Layout',
   components: {
     Sidebar,
@@ -28,10 +29,13 @@ export default {
     Settings,
     RightPanel
   },
-  computed: {
-    ...mapGetters(['sidebar'])
+  setup() {
+    const store = useStore()
+    return {
+      sidebar: computed(() => store.state.app.sidebar)
+    }
   }
-}
+})
 </script>
 
 <style lang="sass" scoped>
