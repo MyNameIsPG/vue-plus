@@ -10,7 +10,7 @@
       :default-active="activeMenu"
       active-text-color="#1890ff"
     >
-      <sidebar-item v-for="(menu, index) in menus" :key="index" :item="menu"></sidebar-item>
+      <sidebar-item v-for="(menu, index) in menus" :key="index" :item="menu" :sidebar="sidebar"></sidebar-item>
     </el-menu>
   </div>
 </template>

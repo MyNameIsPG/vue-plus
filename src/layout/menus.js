@@ -23,6 +23,18 @@ export default [
     ]
   },
   {
+    path: 'formBase',
+    icon: 'el-icon-location',
+    name: 'formBase组件',
+    children: [
+      {
+        path: '/tableOne',
+        icon: 'el-icon-menu',
+        name: 'tableOne'
+      }
+    ]
+  },
+  {
     path: '1',
     icon: 'el-icon-menu',
     name: '1 级别',

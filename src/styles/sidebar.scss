@@ -2,4 +2,13 @@
   .el-menu {
     border-right: none
   }
+  .hideSidebar {
+    .el-submenu {
+      > .el-submenu__title {
+        .el-submenu__icon-arrow {
+          display: none;
+        }
+      }
+    }
+  }
 }

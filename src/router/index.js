@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-export const routes = [
+export const constantRoutes = [
   {
     path: '/',
     name: 'Layout',
@@ -21,6 +21,11 @@ export const routes = [
         path: '/markdown',
         name: 'Markdown',
         component: () => import('../views/markdown/markdown.vue')
+      },
+      {
+        path: '/tableOne',
+        name: 'TableOne',
+        component: () => import('../views/formBase/tableOne/tableOne')
       }
     ]
   },
@@ -33,7 +38,7 @@ export const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes: constantRoutes
 })
 
 export default router

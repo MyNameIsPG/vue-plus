@@ -7,8 +7,10 @@ NProgress.configure({ showSpinner: false })
 
 router.beforeEach(async(_to, _, next) => {
   NProgress.start()
-  store.dispatch('permission/generateRoutes').then(res => {
-    console.log(res)
+  store.dispatch('permission/generateRoutes').then(accessRoutes => {
+    // for (const item of accessRoutes) {
+    //   router.addRoute('Layout', item)
+    // }
   })
   next()
 })

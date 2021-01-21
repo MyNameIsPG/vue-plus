@@ -56,9 +56,9 @@ export default defineComponent({
       transition: width .28s
   &.hideSidebar
     .sidebar-container
-      width: 54px!important
+      width: 64px!important
     .main-container
-      margin-left: 54px
+      margin-left: 64px
       .fixed-header
-        width: calc(100% - 54px)
+        width: calc(100% - 64px)
 </style>
