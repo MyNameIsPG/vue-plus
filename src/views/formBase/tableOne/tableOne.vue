@@ -29,6 +29,9 @@ export default defineComponent({
       user: '',
       region: ''
     })
+    function storeEdit(params) {
+      alert(params.date)
+    }
     const columns = ref([
       {
         prop: 'name',
@@ -45,8 +48,21 @@ export default defineComponent({
         prop: 'date',
         label: '时间',
         align: 'left'
+      },
+      {
+        prop: '',
+        label: '操作',
+        render: (h, params) => {
+          return h('el-button', {
+            onClick: () => {
+              storeEdit(params)
+            },
+            type: 'primary'
+          }, '编辑')
+        }
       }
     ])
+
     return {
       formInline,
       columns

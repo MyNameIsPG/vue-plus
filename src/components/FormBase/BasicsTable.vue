@@ -27,7 +27,15 @@
               :label="column.label"
               :align="column.align"
               :width="column.width ? column.width : ''"
-            ></el-table-column>
+            >
+              <template v-if="column.render">
+                {{scope}}
+                <table-render :row="column"></table-render>
+              </template>
+              <template v-else>
+                {{column.prop}}
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <div class="flex-1 flex justify-center p-3">
@@ -48,9 +56,13 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import TableRender from './TableRender'
 
 export default defineComponent({
   name: 'BasicsTable',
+  components: {
+    TableRender
+  },
   props: {
     formInline: Object,
     columns: Array
