@@ -1,14 +1,14 @@
 <script>
-import { defineComponent, h } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'TableRender',
+  name: 'TableRenderJsx',
   props: {
     row: Object,
     scope: Object
   },
   render() {
-    return h(this.row.render(h, this.scope.row))
+    return (this.row.renderJsx(this.scope.row))
   }
 })
 </script>

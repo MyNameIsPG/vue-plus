@@ -30,7 +30,7 @@ export default defineComponent({
       region: ''
     })
     function storeEdit(params) {
-      alert(params.date)
+      alert(params.name)
     }
     const columns = ref([
       {
@@ -53,13 +53,20 @@ export default defineComponent({
         prop: '',
         label: '操作',
         render: (h, params) => {
-          return h('el-button', {
-            onClick: () => {
-              storeEdit(params)
-            },
-            type: 'primary'
-          }, '编辑')
+          return h('div',
+            [
+              h('a', { onClick: () => { storeEdit(params) }, class: 'text-primary' }, '编辑1'),
+              h('a', { class: 'text-primary' }, '编辑')
+            ]
+          )
         }
+      },
+      {
+        prop: '',
+        label: '操作2',
+        renderJsx: (params) => (
+          <a onClick={ () => storeEdit(params) } class='text-primary'>编辑</a>
+        )
       }
     ])
 

@@ -21,19 +21,17 @@
             height="100%"
             style="width: 100%">
             <el-table-column
-              v-for="(column, index) in columns"
+              v-for="(item, index) in columns"
               :key="index"
-              :prop="column.prop"
-              :label="column.label"
-              :align="column.align"
-              :width="column.width ? column.width : ''"
+              :prop="item.prop"
+              :label="item.label"
+              :align="item.align"
+              :width="item.width ? item.width : ''"
             >
-              <template v-if="column.render">
-                {{scope}}
-                <table-render :row="column"></table-render>
-              </template>
-              <template v-else>
-                {{column.prop}}
+              <template #default="scope">
+                <span v-if="!item.render">{{scope.row[item.prop]}}</span>
+                <table-render v-if="item.render" :row="item" :scope="scope"></table-render>
+                <table-render-jsx v-if="item.renderJsx" :row="item" :scope="scope"></table-render-jsx>
               </template>
             </el-table-column>
           </el-table>
@@ -57,11 +55,13 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import TableRender from './TableRender'
+import TableRenderJsx from './TableRenderJsx'
 
 export default defineComponent({
   name: 'BasicsTable',
   components: {
-    TableRender
+    TableRender,
+    TableRenderJsx
   },
   props: {
     formInline: Object,
