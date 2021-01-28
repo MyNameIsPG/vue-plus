@@ -1,6 +1,6 @@
 <template>
   <div class="h-full">
-    <basics-table
+    <basics-layout
       :formInline="formInline"
       :columns="columns"
     >
@@ -15,7 +15,7 @@
           </el-select>
         </el-form-item>
       </template>
-    </basics-table>
+    </basics-layout>
   </div>
 </template>
 
